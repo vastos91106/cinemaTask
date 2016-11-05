@@ -1,3 +1,5 @@
+using System.Web.Http;
+using Ninject.Web.WebApi;
 using Web.Controllers.Api;
 using Web.Models;
 
@@ -48,8 +50,8 @@ namespace Web.App_Start
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
                 kernel.Bind<EFContext>().ToSelf().InRequestScope();
-
                 RegisterServices(kernel);
+                GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
                 return kernel;
             }
             catch

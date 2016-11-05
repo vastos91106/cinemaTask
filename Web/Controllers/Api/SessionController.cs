@@ -23,18 +23,17 @@ namespace Web.Controllers.Api
         public IHttpActionResult GetSessions()
         {
             var t = _context.Sessions.ToList();
-            var entityModel = _context.Sessions
-                .Where(x => DbFunctions.TruncateTime(x.DateCreate) >= DbFunctions.TruncateTime(DateTime.Now)).Include(z => z.Film).ToList();
-
-            var model = entityModel.Select(session => new SessionListVM()
-            {
-                ID = session.ID,
-                Film = new FilmVM()
+            var model = _context.Sessions
+                .Where(x => DbFunctions.TruncateTime(x.StartingDate) >= DbFunctions.TruncateTime(DateTime.Now))
+                .Select(session => new SessionListVM()
                 {
-                    ID = session.Film.ID,
-                    Name = session.Film.Name
-                }
-            }).ToList();
+                    ID = session.ID,
+                    Film = new FilmVM()
+                    {
+                        ID = session.Film.ID,
+                        Name = session.Film.Name
+                    }
+                }).ToList();
 
             return Ok(model);
         }

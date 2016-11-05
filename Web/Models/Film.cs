@@ -9,7 +9,7 @@ namespace Web.Models
 {
     public class Film : BaseEntity
     {
-        [Required]
+        [Required(ErrorMessage = "Поле Название фильма обязательно")]
         public string Name { get; set; }
     }
 }

@@ -17,26 +17,35 @@ namespace Web.Controllers.Api
 
         public IHttpActionResult PostOrder(OrderCreateVM model)
         {
-            if (ModelState.IsValid)
+
+            if (ModelState.IsValidField(nameof(model.SessionID)))
             {
-                if (!_context.Sessions.Any(x => x.ID == model.SessionID))
+                var session = _context.Sessions.Find(model.SessionID);
+                if (session == null)
                 {
-                    ModelState.AddModelError(nameof(model.SessionID),"Сеанс с таким id не найден");
-                    return BadRequest(ModelState);
+                    ModelState.AddModelError(nameof(model.SessionID), "Сеанс с таким id не найден");
                 }
                 else
                 {
-                    var entityModel = new Order()
+                    if (session.StartingDate < DateTime.Now.AddMinutes(-30.0))
                     {
-                        SessionID = model.SessionID,
-                        Count = model.Count
-                    };
-
-                    _context.Set<Order>().Add(entityModel);
-                    _context.SaveChanges();
-
-                    return Ok();
+                        ModelState.AddModelError(nameof(model.SessionID), "Запись на идущий сеанс запрещена");
+                    }
                 }
+            }
+            if (ModelState.IsValid)
+            {
+                var entityModel = new Order()
+                {
+                    SessionID = model.SessionID,
+                    Count = model.Count
+                };
+
+                _context.Set<Order>().Add(entityModel);
+                _context.SaveChanges();
+
+                return Ok();
+
             }
             else
             {

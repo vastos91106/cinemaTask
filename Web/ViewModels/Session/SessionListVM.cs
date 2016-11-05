@@ -8,7 +8,9 @@ namespace Web.ViewModels.Session
 {
     public class SessionListVM
     {
-        public int ID;
+        public int ID { get; set; }
         public FilmVM Film { get; set; }
+
+        public DateTime StartingDate { get; set; }
     }
 }

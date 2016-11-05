@@ -22,3 +22,16 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+#remote .twitter-typeahead {
+    width: 100%;
+}
+
+#remote .tt-hint {
+    display: none;
+}
+
+.removeBullet> ul {
+    list-style-type: none;
+}

@@ -11,15 +11,17 @@ namespace Web.Models.Abstract
         [Required]
         public int ID { get; set; }
 
-        private DateTime _DateCreate { get; set; }
-
         public DateTime DateCreate
         {
-            get { return _DateCreate; }
-          protected  set
+            get
             {
-                _DateCreate = DateTime.Now;
+                return (this._dateCreate == default(DateTime))
+                   ? this._dateCreate = DateTime.Now
+                   : this._dateCreate;
             }
+            set { this._dateCreate = value; }
         }
+
+        private DateTime _dateCreate = default(DateTime);
     }
 }
