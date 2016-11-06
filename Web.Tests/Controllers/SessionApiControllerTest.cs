@@ -38,11 +38,15 @@ namespace Web.Tests.Controllers
                 }
             };
 
-                System.Data.Entity.Fakes.ShimDbFunctions.TruncateTimeNullableOfDateTime =
-                (DateTime? input) =>
+                System.Data.Entity.Fakes.ShimDbFunctions.AddMinutesNullableOfDateTimeNullableOfInt32 = (time, i) =>
                 {
-                    return input.HasValue ? (DateTime?)input.Value.Date : null;
+                    if (time.HasValue)
+                    {
+                        time = time.Value.AddMinutes(i.Value);
+                    }
+                    return time.Value;
                 };
+
 
                 var mockSetSession = new Mock<DbSet<Session>>().SetupData(data);
                 var context = new Mock<EFContext>();
@@ -76,6 +80,27 @@ namespace Web.Tests.Controllers
                 contentResult = controller.GetSessions() as OkNegotiatedContentResult<List<SessionListVM>>;
                 Assert.AreEqual(0, contentResult.Content.Count());
 
+
+                //date -20minutes
+                data = new List<Session>()
+            {
+                new Session()
+                {
+                    StartingDate = DateTime.Now.AddMinutes(-20),
+                    Film = new Film()
+                    {
+                        Name = "test",
+                        ID = 1
+                    }
+                }
+            };
+                mockSetSession = new Mock<DbSet<Session>>().SetupData(data);
+                context.Setup(m => m.Sessions).Returns(mockSetSession.Object);
+                controller = new SessionApiController(context.Object) { Request = new HttpRequestMessage() };
+                controller.Request.SetConfiguration(new HttpConfiguration());
+
+                contentResult = controller.GetSessions() as OkNegotiatedContentResult<List<SessionListVM>>;
+                Assert.AreEqual(0, contentResult.Content.Count());
 
                 //no data
 

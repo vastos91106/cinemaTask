@@ -1,14 +1,7 @@
 ﻿@model Web.ViewModels.Session.SessionCreateVM
-
 <h2>Создание сеанса</h2>
 <br />
-@{
-    if (ViewBag.SuccessResult != null)
-    {
-        <div class="alert alert-success" role="alert">@ViewBag.SuccessResult</div>
-    }
-        @Html.ValidationSummary("", new { @class = "alert alert-danger removeBullet" })
-}
+@Html.Partial("_Alert")
 @using (Html.BeginForm("create", "Session", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -35,39 +28,4 @@
         </div>
     </div>
 }
-<script type="text/javascript">
-    $(function () {
-        $('#StartingDate')
-            .datetimepicker({
-                format: 'MM.DD.YYYY HH:mm',
-                locale: "ru",
-                minDate: new Date()
-            });
-
-        var bestPictures = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-
-            remote: {
-                url: '../api/films/%QUERY',
-                wildcard: '%QUERY'
-            }
-        });
-
-        $('#remote .form-control').typeahead(null, {
-            name: 'best-pictures',
-            display: 'Name',
-            source: bestPictures
-        });
-
-        var numSelectedHandler = function (eventObject, suggestionObject, suggestionDataset) {
-            console.log(suggestionObject)
-            $("#@(nameof(Model.FilmID))").val(suggestionObject.ID);
-        };
-        $('#remote').on('typeahead:selected', numSelectedHandler);
-    });
-
-</script>
-@*@section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }*@
+<script src="~/Scripts/Session/Create/Create.js"></script>

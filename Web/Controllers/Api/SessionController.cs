@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,6 +12,7 @@ using Web.ViewModels.Session;
 
 namespace Web.Controllers.Api
 {
+    [RoutePrefix("api/sessions")]
     public class SessionApiController : ApiController
     {
         private EFContext _context;
@@ -20,13 +22,14 @@ namespace Web.Controllers.Api
             _context = context;
         }
 
+        [Route()]
         public IHttpActionResult GetSessions()
         {
-            var t = _context.Sessions.ToList();
             var model = _context.Sessions
-                .Where(x => DbFunctions.TruncateTime(x.StartingDate) >= DbFunctions.TruncateTime(DateTime.Now))
+                .Where(x => x.StartingDate >= DbFunctions.AddMinutes(DateTime.Now, -20))
                 .Select(session => new SessionListVM()
                 {
+                    StartingDate = session.StartingDate,
                     ID = session.ID,
                     Film = new FilmVM()
                     {

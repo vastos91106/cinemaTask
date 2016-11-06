@@ -211,6 +211,10 @@
     <Compile Include="Migrations\201611051352342_init.Designer.cs">
       <DependentUpon>201611051352342_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611060705308_fixStartingDateMigration.cs" />
+    <Compile Include="Migrations\201611060705308_fixStartingDateMigration.Designer.cs">
+      <DependentUpon>201611060705308_fixStartingDateMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Abstract\BaseEntity.cs" />
     <Compile Include="Models\EFContext.cs" />
@@ -268,6 +272,7 @@
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Session\Create\Create.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -281,10 +286,14 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Session\Create.cshtml" />
+    <Content Include="Views\Shared\_Alert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611051352342_init.resx">
       <DependentUpon>201611051352342_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611060705308_fixStartingDateMigration.resx">
+      <DependentUpon>201611060705308_fixStartingDateMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

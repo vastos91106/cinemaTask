@@ -1,0 +1,10 @@
+﻿@{
+    if (ViewBag.SuccessResult != null)
+    {
+        <div class="alert alert-success" role="alert">@ViewBag.SuccessResult</div>
+    }
+    if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+    {
+        @Html.ValidationSummary("", new { @class = "alert alert-danger removeBullet" })
+    }
+}

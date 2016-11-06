@@ -11,7 +11,7 @@ namespace Web.Models
     public class Session : BaseEntity
     {
         [Required(ErrorMessage = "Поле начало даты обязательно")]
-        public DateTime StartingDate;
+        public DateTime StartingDate { get; set; }
 
         [Required(ErrorMessage = "Поле фильм обязательно")]
         public int FilmID { get; set; }

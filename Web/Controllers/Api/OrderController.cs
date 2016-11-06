@@ -6,6 +6,7 @@ using Web.ViewModels.Order;
 
 namespace Web.Controllers.Api
 {
+    [RoutePrefix("api/order")]
     public class OrderApiController : ApiController
     {
         private EFContext _context;
@@ -15,6 +16,7 @@ namespace Web.Controllers.Api
             _context = context;
         }
 
+        [Route()]
         public IHttpActionResult PostOrder(OrderCreateVM model)
         {
 
@@ -23,7 +25,7 @@ namespace Web.Controllers.Api
                 var session = _context.Sessions.Find(model.SessionID);
                 if (session == null)
                 {
-                    ModelState.AddModelError(nameof(model.SessionID), "Сеанс с таким id не найден");
+                    ModelState.AddModelError(nameof(model.SessionID), "Сеанс не найден");
                 }
                 else
                 {
